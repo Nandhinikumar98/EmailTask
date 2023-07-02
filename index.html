@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Email Sending Form !!!</title>
+</head>
+<body>
+    <form class="form" id="Mailform">
+        <div class="App">
+            <label for="mail">MailTo:</label>
+            <input type="email" placeholder="Enter mail id" id="email" required> 
+            <br/>
+            <label for="Subject">Subject:</label>
+            <input type="text" placeholder="Enter subject" id="sub" required> 
+            <br/>
+            <label for="message">Message:</label>
+            <textarea placeholder="Enter your message" id="msg" required> </textarea>
+            <br/>
+            <button type="submit" id="submit_btn">Send Mail</button>
+        </div>
+        <script>
+            document.getElementById("Mailform").addEventListener("submit",function(e){
+                e.preventDefault();
+
+                const email =document.getElementById("email").value
+                const subject =document.getElementById("sub").value
+                const message=document.getElementById("msg").value
+
+                const data ={email, subject, message}
+
+                fetch("/mail",{
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body:JSON.stringify(data)
+                })
+                .then(response=>response.json())
+                .then(result=>{
+                    alert(result);
+                    document.getElementById("Mailform").reset();
+                })
+                .catch(error=>{
+                    console.error(error)
+                })
+            })
+        </script>
+    </form>
+</body>
+</html>
